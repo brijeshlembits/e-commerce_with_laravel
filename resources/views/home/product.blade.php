@@ -11,13 +11,16 @@
             <div class="box">
                <div class="option_container">
                   <div class="options">
-                     <a href="{{route('user/addtocart','$products->id')}}" class="option1">
-                        <?php $count=1;?>
-                        Add To Cart
+                     <a href="{{route('user/productdetails',$products->id)}}" class="option1">
+
+                        Product Details
                      </a>
-                     <a href="" class="option2">
-                        Buy Now
-                     </a>
+                     <form action="" method="post">
+                        @csrf
+                        <a href="{{route('user/addtocart',$products->id)}}" class="option2">
+                           Add to Cart
+                        </a>
+                     </form>
                   </div>
                </div>
                <div class="img-box">

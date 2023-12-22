@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
@@ -27,49 +28,83 @@ class HomeController extends Controller
             return view('admin.home', compact('product', 'category', 'user'));
         } else {
             $product = Product::query()->latest()->paginate(10);
-          
-        
-            return view('home.userpage', compact( 'product'));
+
+
+            return view('home.userpage', compact('product'));
         }
     }
     public function useraddtocart(Request $request, $id)
     {
-        
-        $product = Product::find($id);
+        if (Auth::id()) {
+            $user = Auth::user();
+            $product = Product::find($id);
 
-        // Check if the product exists
-        if (!$product) {
-            return redirect()->back()->with('error', 'Product not found');
-        }
-    
-        // Initialize the quantity to add
-        $quantity = 1;
-    
-        // Get the current cart from the session
-        $cart = $request->session()->get('cart', []);
-        // Check if the product is already in the cart
-        if (isset($cart[$id])) {
-            // If it is, increment the quantity
-            $cart[$id]['quantity'] += $quantity;
+          
+         
+            if ($id) {
+                if(  $cart = Cart::where('product_id', $id)->first()){
+                if ($cart->product_id == $id ) {
+                    if ($request->input('qty')) {
+                        $cart->quantity = $request->input('qty');
+                    } else {
+                        $cart->quantity++;
+                    }
+                    $cart->name = $user->name;
+                    $cart->email = $user->email;
+                    $cart->address = $user->address;
+                    $cart->phone = $user->phone;
+                    $cart->user_id = $user->id;
+                    $cart->product_title = $product->title;
+                    $cart->image = $product->image;
+                    $cart->product_id = $product->id;
+                    if ($product->discount_price != null) {
+
+                        $cart->price = $product->discount_price * $cart->quantity;
+                    } else {
+                        $cart->price = $product->price * $cart->quantity;
+                    }
+                    $cart->save();
+                }
+            } else {
+                    $cart = new Cart();
+
+                    $cart->name = $user->name;
+                    $cart->email = $user->email;
+                    $cart->address = $user->address;
+                    $cart->phone = $user->phone;
+                    $cart->user_id = $user->id;
+                    $cart->product_title = $product->title;
+                    $cart->image = $product->image;
+                    $cart->product_id = $product->id;
+                    if ($request->input('qty')) {
+                        $cart->quantity = $request->input('qty');
+                    } else {
+                        $cart->quantity = 1;
+                    }
+                    if ($product->discount_price != null) {
+
+                        $cart->price = $product->discount_price * $cart->quantity;
+                    } else {
+                        $cart->price = $product->price * $cart->quantity;
+                    }
+
+                    $cart->save();
+                }
+            }
+
+            return redirect()->route('redirect');
         } else {
-            // If it's not, add the product to the cart
-            $cart[$id] = [
-                'title'   => $product->title,
-                'quantity' => $quantity,
-                'price'   => $product->price,
-                'image'   => $product->image,
-            ];
+            return redirect('login');
         }
-    
-        // Store the updated cart back to the session
-       
-$request->session()->put('cart', $cart);
-    
-        // Redirect back to the previous page with a success message
-        return redirect()->back()->with('success', 'Product added to cart successfully');
     }
     public function cartlist(Request $request)
     {
-        return view('home.cart');
+        $session = session()->get('cart');
+        return view('home.cart', 'session');
+    }
+    public function productdetails(Request $request, $id)
+    {
+        $product = Product::find($id);
+        return view('home.productdetails', compact('product'));
     }
 }

@@ -46,8 +46,9 @@ Route::get('/admin/user/delete{id}',[AdminController::class,'userdelete'])->name
 Route::get('/admin/user/create',[AdminController::class,'usercreate'])->name('admin/user/create');
 Route::post('/admin/user/save',[AdminController::class,'usersave'])->name('admin/user/save');
     // Client side url
-Route::get('/user/addtocart{id}',[HomeController::class,'useraddtocart'])->name('user/addtocart');
+Route::any('/user/addtocart{id}',[HomeController::class,'useraddtocart'])->name('user/addtocart');
 Route::get('/user/cartlist',[HomeController::class,'cartlist'])->name('user/cartlist');
+Route::get('/user/productdetails{id}',[HomeController::class,'productdetails'])->name('user/productdetails');
 
 });
 

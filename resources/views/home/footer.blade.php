@@ -1,10 +1,12 @@
 <footer>
+<?php $baseUrl = "http://localhost/e-commerce/public/";?>
+
     <div class="container">
        <div class="row">
           <div class="col-md-4">
               <div class="full">
                  <div class="logo_footer">
-                   <a href="#"><img width="210" src="images/logo.png" alt="#" /></a>
+                   <a href="#"><img width="210" src="{{$baseUrl}}images/logo.png" alt="#" /></a>
                  </div>
                  <div class="information_f">
                    <p><strong>ADDRESS:</strong> 28 White tower, Street Name New York City, USA</p>
