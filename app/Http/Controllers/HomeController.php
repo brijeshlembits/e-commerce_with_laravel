@@ -99,7 +99,15 @@ class HomeController extends Controller
     }
     public function cartlist(Request $request)
     {
-        $session = session()->get('cart');
+        $user=Auth::user();
+        $cart = Cart::where('user_id', $user->id)->get();
+        if($cart){
+            return view('home.cart',compact('cart'));
+
+        }else{
+            return redirect()->route('redirect');
+        }
+
         return view('home.cart', 'session');
     }
     public function productdetails(Request $request, $id)
@@ -107,4 +115,5 @@ class HomeController extends Controller
         $product = Product::find($id);
         return view('home.productdetails', compact('product'));
     }
+
 }

@@ -36,9 +36,9 @@
                             <i class="fa fa-search" aria-hidden="true"></i>
                         </button>
                     </form>
-                    <form class="form-inline" id="addtocart">
+                    <form class="form-inline" action="{{route('user/cartlist')}}">
                         <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                            <i class="fa fa-shopping-cart " aria-hidden="true"><a href="{{route('user/cartlist')}}" id="cart-link"></a></i>
+                            <i class="fa fa-shopping-cart " aria-hidden="true"><a href="" id="cart-link"></a></i>
                         </button>
                     </form>
                     @if (Route::has('login'))
@@ -63,19 +63,3 @@
         </nav>
     </div>
 </header>
-<script>
-    function addtocart(){
-        axios.post('user/addtocart')
-        .then(response=>{
-            updatecartcount(response.data.cartitemcount)
-        })
-        .catch(error=>{
-            console.error('error ',error);
-        });
-
-    }
-    function updatecartcount(cartItemCount) {
-        // Update the cart count text
-        document.getElementById('cart-link').innerText = ' Cart (' + cartItemCount + ')';
-    }
-</script>
