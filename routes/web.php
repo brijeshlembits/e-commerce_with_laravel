@@ -58,6 +58,8 @@ Route::get('/user/cash_on_delivery',[HomeController::class,'cash_on_delivery'])-
 Route::get('/stripe{totalprice}',[HomeController::class,'stripe'])->name('stripe');
 Route::get('/show_order',[HomeController::class,'show_order'])->name('show_order');
 Route::get('/cancel_order{id}',[HomeController::class,'cancel_order'])->name('cancel_order');
+Route::get('/comments',[HomeController::class,'comments'])->name('comments');
+Route::post('/commentspost',[HomeController::class,'commentspost'])->name('commentspost');
 
     Route::post('stripe{totalprice}',[HomeController::class,'stripePost'])->name('stripe.post');
 

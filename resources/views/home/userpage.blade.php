@@ -53,9 +53,9 @@
       @include('home.footer')
       <!-- footer end -->
       <div class="cpy_">
-         <p class="mx-auto">© 2021 All Rights Reserved By <a href="https://html.design/">Free Html Templates</a><br>
+         <p class="mx-auto">© 2023 Created By Brijesh Fotariya <br>
          
-            Distributed By <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
+            Distributed By <a href="https://github.com/brijeshlembits" target="_blank">Brijesh Fotariya</a>
          
          </p>
       </div>

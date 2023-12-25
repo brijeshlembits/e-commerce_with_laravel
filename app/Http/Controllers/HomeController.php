@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\commets;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use Egulias\EmailValidator\Warning\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Stripe;
-use Stripe\Stripe as StripeStripe;
 
 class HomeController extends Controller
 {
@@ -30,10 +30,9 @@ class HomeController extends Controller
         $order = Order::all()->count();
         $user = User::all()->count();
         if ($usertype == '1') {
-            return view('admin.home', compact('product', 'category', 'user','order'));
+            return view('admin.home', compact('product', 'category', 'user', 'order'));
         } else {
             $product = Product::query()->latest()->paginate(10);
-
 
             return view('home.userpage', compact('product'));
         }
@@ -151,16 +150,18 @@ class HomeController extends Controller
             $order->payment_status = 'cash on delivery';
             $order->delivery_status = 'proccessing';
             $order->save();
-            $cart_id=$carts->id;
-            $cart_data=Cart::find($cart_id);
+            $cart_id = $carts->id;
+            $cart_data = Cart::find($cart_id);
             $cart_data->delete();
         }
-        return redirect()->back()->with('message','We have Received your Order. We will connect with you soon....');
+        return redirect()->back()->with('message', 'We have Received your Order. We will connect with you soon....');
     }
-    public function stripe(Request $request,$totalprice){
-        return view('home.stripe',compact('totalprice'));
+    public function stripe(Request $request, $totalprice)
+    {
+        return view('home.stripe', compact('totalprice'));
     }
-    public function stripePost(Request $request,$totalprice){
+    public function stripePost(Request $request, $totalprice)
+    {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
         $paymentIntent = \Stripe\PaymentIntent::create([
             "amount" => $totalprice * 100,
@@ -197,33 +198,45 @@ class HomeController extends Controller
             $order->payment_status = 'Paid';
             $order->delivery_status = 'proccessing';
             $order->save();
-            $cart_id=$carts->id;
-            $cart_data=Cart::find($cart_id);
+            $cart_id = $carts->id;
+            $cart_data = Cart::find($cart_id);
             $cart_data->delete();
         }
-        
+
         Session::flash('success', 'Payment successful!');
-        
+
         return back();
-        
-        
-        
     }
-    public function show_order(Request $request){
-        if(Auth::user()){
-            $user=Auth::user();
-            $orders=Order::where('user_id',$user->id)->get();
-            return view('home.show_order',compact('orders'));
-        }else{
+    public function show_order(Request $request)
+    {
+        if (Auth::user()) {
+            $user = Auth::user();
+            $orders = Order::where('user_id', $user->id)->get();
+            return view('home.show_order', compact('orders'));
+        } else {
             return redirect('login');
         }
     }
-    public function cancel_order(Request $request,$id){
-        $orderid=Order::find($id);
-        $orderid->delivery_status="User has cancel the order";
+    public function cancel_order(Request $request, $id)
+    {
+        $orderid = Order::find($id);
+        $orderid->delivery_status = "User has cancel the order";
         $orderid->save();
-        
-        return redirect()->back()->with('message','Your Order has been Cancel');
-        
+
+        return redirect()->back()->with('message', 'Your Order has been Cancel');
+    }
+    public function comments(Request $request)
+    {
+        $comments = commets::all();
+        return view('home.comment', compact('commets'));
+    }
+    public function commentspost(Request $request)
+    {
+        $comments = new commets();
+        $comments->name = $request->input('name');
+        $comments->email = $request->input('email');
+        $comments->message = $request->input('message');
+        $comments->save();
+        return redirect()->back()->with('message', 'Thank you for countact us');
     }
 }

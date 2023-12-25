@@ -3,7 +3,7 @@
        <div class="heading_container heading_center">
           <h2>
              Customer's Testimonial
-          </h2>
+          </h2>   
        </div>
        <div id="carouselExample3Controls" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
