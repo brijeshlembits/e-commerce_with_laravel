@@ -45,10 +45,21 @@ Route::get('/admin/user/update{id}',[AdminController::class,'userupdate'])->name
 Route::get('/admin/user/delete{id}',[AdminController::class,'userdelete'])->name('admin/user/delete');
 Route::get('/admin/user/create',[AdminController::class,'usercreate'])->name('admin/user/create');
 Route::post('/admin/user/save',[AdminController::class,'usersave'])->name('admin/user/save');
+Route::get('/admin/orders',[AdminController::class,'order'])->name('admin/orders');
+Route::get('/order/search',[AdminController::class,'ordersearch'])->name('order/search');
+Route::get('/delivered{id}',[AdminController::class,'delivered'])->name('delivered');
+Route::get('/print_pdf{id}',[AdminController::class,'print_pdf'])->name('print_pdf');
     // Client side url
 Route::any('/user/addtocart{id}',[HomeController::class,'useraddtocart'])->name('user/addtocart');
 Route::any('/user/cartlist',[HomeController::class,'cartlist'])->name('user/cartlist');
 Route::get('/user/productdetails{id}',[HomeController::class,'productdetails'])->name('user/productdetails');
+Route::get('/user/removecart{id}',[HomeController::class,'removecart'])->name('user/removecart');
+Route::get('/user/cash_on_delivery',[HomeController::class,'cash_on_delivery'])->name('user/cash_on_delivery');
+Route::get('/stripe{totalprice}',[HomeController::class,'stripe'])->name('stripe');
+Route::get('/show_order',[HomeController::class,'show_order'])->name('show_order');
+Route::get('/cancel_order{id}',[HomeController::class,'cancel_order'])->name('cancel_order');
+
+    Route::post('stripe{totalprice}',[HomeController::class,'stripePost'])->name('stripe.post');
 
 });
 

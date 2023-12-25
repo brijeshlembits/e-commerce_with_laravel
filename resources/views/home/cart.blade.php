@@ -48,9 +48,25 @@
             .btn-link .fa-plus {
                 color: black;
             }
-            button, [type='button'] {
-    background-color: #d39e00;
-}
+
+            button,
+            [type='button'] {
+                background-color: #d39e00;
+            }
+
+            .totalprice {
+                background-color: #363535;
+                color: white;
+                padding: 10px;
+                margin: 10px;
+                text-align: center;
+                justify-content: center;
+
+            }
+            .hello{
+                margin-top: auto !important;
+                margin-left: 10px;
+            }
         </style>
 
         <?php $baseUrl = "http://localhost/e-commerce/public/"; ?>
@@ -60,11 +76,17 @@
             <div class="container h-100 py-5">
                 <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col-10">
-
+                        @if(Session::get('message'))
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                            {{Session::get('message')}}
+                        </div>
+                        @endif
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
 
                         </div>
+                        <?php $totalprice = 0; ?>
                         @foreach($cart as $carts)
                         <div class="card rounded-3 mb-4">
                             <div class="card-body p-4">
@@ -91,18 +113,26 @@
                                         <h5 class="mb-0">${{$carts->price}}</h5>
                                     </div>
                                     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                        <a href="#!" class="text-danger"><i class="fa fa-trash fa-lg"></i></a>
+                                        <a href="{{route('user/removecart',$carts->id)}}" class="text-danger"><i class="fa fa-trash fa-lg"></i></a>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
+                        <?php $totalprice += $carts->price ?>
                         @endforeach
+                        <div class="totalprice d-flex">
+                            <label for=""> Total Price :</label>
+                            <label for="">${{$totalprice}}</label>
+                        </div>
+
 
 
 
                         <div class="card">
-                            <div class="card-body">
-                                <button type="button" class="btn btn-warning btn-block btn-lg">Proceed to Pay</button>
+                            <div class="card-body d-flex col-md-12 ">
+                                <button type="button col-md-6 " class="btn btn-warning btn-block btn-lg"><a href="{{route('user/cash_on_delivery')}}">Cash On delivery</a></button>
+                                <button type="button col-md-6 " class="btn btn-warning btn-block btn-lg hello"><a href="{{route('stripe',$totalprice)}}">Pay Using Cart</a></button>
                             </div>
                         </div>
 
@@ -115,9 +145,9 @@
         @include('home.footer')
         <!-- footer end -->
         <div class="cpy_">
-            <p class="mx-auto">© 2021 All Rights Reserved By <a href="https://html.design/">Free Html Templates</a><br>
+            <p class="mx-auto">© 2023 Created By Brijesh Fotariya <br>
 
-                Distributed By <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
+                <a href="https://github.com/brijeshlembits" target="_blank">Brijesh Fotariya</a>
 
             </p>
         </div>

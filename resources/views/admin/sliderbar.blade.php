@@ -13,14 +13,9 @@
                 <li class="active"><a href="{{route('redirect')}}"> <i class="icon-home"></i>Home </a></li>
                 <li><a href="{{route('admin/user')}}"> <i class="icon-user"></i>Users </a></li>
                 <li><a href="{{route('admin/category')}}"> <i class="fa fa-bar-chart"></i>Category </a></li>
-                <li><a href="{{route('admin/product')}}"> <i class="icon-padnote"></i>Products </a></li>
-                <li><a href="#exampledropd" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Products </a>
-                  <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
-                    <li><a href="#">Page</a></li>
-                    <li><a href="#">Page</a></li>
-                    <li><a href="#">Page</a></li>
-                  </ul>
-                </li>
+                <li><a href="{{route('admin/product')}}"> <i class="icon-box"></i>Products </a></li>
+                <li><a href="{{route('admin/orders')}}"> <i class="fa fa-shopping-cart"></i>Orders </a></li>
+               
                 <li><a href="login.html"> <i class="icon-logout"></i>Login page </a></li>
         </ul><span class="heading">Extras</span>
         <ul class="list-unstyled">

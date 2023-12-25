@@ -9,6 +9,7 @@
                     </div>
                     <div class="number dashtext-1">{{$user}}</div>
                   </div>
+                  
                   <div class="progress progress-template">
                     <div role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-1"></div>
                   </div>
@@ -44,9 +45,9 @@
                 <div class="statistic-block block">
                   <div class="progress-details d-flex align-items-end justify-content-between">
                     <div class="title">
-                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong>All Projects</strong>
+                      <div class="icon"><i class="icon-writing-whiteboard"></i></div><strong>Orders</strong>
                     </div>
-                    <div class="number dashtext-4">41</div>
+                    <div class="number dashtext-4">{{$order}}</div>
                   </div>
                   <div class="progress progress-template">
                     <div role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" class="progress-bar progress-bar-template dashbg-4"></div>
