@@ -35,6 +35,9 @@
     .online-payment {
         background-color: green;
     }
+    .canceled{
+        background-color: red;
+    }
     </style>
 </head>
 
@@ -101,6 +104,8 @@
                                             <td>
                                                 @if($order->delivery_status == 'proccessing')
                                                 <label class="payment-status-label cash-on-delivery">Proccessing</label>
+                                                @elseif($order->delivery_status == 'User has cancel the order')
+                                                <label class="payment-status-label canceled">Canceled</label>
                                                 @else
                                                 <label class="payment-status-label online-payment">Delivered</label>
                                                 @endif

@@ -23,6 +23,7 @@
    </head>
    <body>
       <div class="hero_area">
+      @include('sweetalert::alert')
          <!-- header section strats -->
         @include('home.header')
          <!-- end header section -->

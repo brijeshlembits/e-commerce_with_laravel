@@ -21,6 +21,7 @@
     <link href="home/css/style.css" rel="stylesheet" />
     <!-- responsive style -->
     <link href="home/css/responsive.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -66,6 +67,8 @@
     <div class="hero_area">
         <!-- header section strats -->
         @include('home.header')
+      @include('sweetalert::alert')
+
         <!-- end header section -->
         <section class="card-container">
             @if (Session::has('message'))
@@ -86,7 +89,7 @@
 
                 <p>Quantity: {{$order->quantity}}</p>
                 <p style="background-color:black; margin-top: 5px;color: #4CAF50;font-weight: bold;">Price: ${{$order->price}}</p>
-                <button type="submit" style="background-color:#d6120d"><a href="{{route('cancel_order',$order->id)}}">Cancel Order</a></button>
+                <button type="submit"  style="background-color:#d6120d"><a onclick="conformation(event)" href="{{route('cancel_order',$order->id)}}">Cancel Order</a></button>
 
             </div>
             @endif
@@ -105,6 +108,26 @@
 
             </p>
         </div>
+        <script>
+            function conformation(event){
+                event.preventdefalut();
+                var urlToRedirect=ev.currentTarget.getAttribute('href');
+                console.log(urlToRedirect);
+                swal({
+                    title:"are you sure to cancel this product",
+                    text:"are you sure to cancel this product",
+                    icon:"warning",
+                    buttons:true,
+                    dangerMode:true,
+
+                })
+                .than((willCancel)=>{
+                    if(willCancel){
+                        Window.localtion.href=urlToRedirect
+                    }
+                })
+            }
+        </script>
         <!-- jQery -->
         <script src="home/js/jquery-3.4.1.min.js"></script>
         <!-- popper js -->

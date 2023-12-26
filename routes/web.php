@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -60,6 +61,14 @@ Route::get('/show_order',[HomeController::class,'show_order'])->name('show_order
 Route::get('/cancel_order{id}',[HomeController::class,'cancel_order'])->name('cancel_order');
 Route::get('/comments',[HomeController::class,'comments'])->name('comments');
 Route::post('/commentspost',[HomeController::class,'commentspost'])->name('commentspost');
+Route::get('/productsearch',[HomeController::class,'productsearch'])->name('productsearch');
+Route::get('/searchproduct',[HomeController::class,'searchproduct'])->name('searchproduct');
+Route::get('/all_product',[HomeController::class,'all_product'])->name('all_product');
+
+
+// Google Id With Sign IN 
+Route::get('/auth/google',[GoogleController::class,'googlepage'])->name('auth/google');
+Route::get('/auth/google/callback',[GoogleController::class,'googlecallback'])->name('auth/google/callback');
 
     Route::post('stripe{totalprice}',[HomeController::class,'stripePost'])->name('stripe.post');
 

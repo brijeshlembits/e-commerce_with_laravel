@@ -5,7 +5,7 @@
         </x-slot>
 
         <x-jet-validation-errors class="mb-4" />
-
+     
         @if (session('status'))
             <div class="mb-4 font-medium text-sm text-green-600">
                 {{ session('status') }}
@@ -43,6 +43,7 @@
                     {{ __('Log in') }}
                 </x-jet-button>
             </div>
+            <div>  <a href="{{route('auth/google')}}" style="background-color: blue; color:white;"> Google Sign in</a></div>
         </form>
     </x-jet-authentication-card>
 </x-guest-layout>

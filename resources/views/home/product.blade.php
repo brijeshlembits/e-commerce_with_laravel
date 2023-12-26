@@ -5,6 +5,25 @@
             Our <span>products</span>
          </h2>
       </div>
+      <div class="container">
+         <form action="{{route('productsearch')}}" method="get">
+            @csrf
+
+            <input type="text" name="search" class="d-flex" style="width: revert;" list="suggestions" placeholder="search product">
+            @foreach($product as $products)
+
+            <datalist id="suggestions">
+               <option value="{{$products->title}}">
+            </datalist>
+            @endforeach
+
+
+            <input type="submit" class="btn btn-danger" style="background-color: red;color: white;border: none !important;padding: 10px;width: auto !IMPORTANT;margin: 0;" value="Search">
+
+         </form>
+
+
+      </div>
       <div class="row">
          @foreach($product as $products)
          <div class="col-sm-6 col-md-4 col-lg-4">

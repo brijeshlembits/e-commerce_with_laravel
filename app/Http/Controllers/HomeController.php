@@ -12,6 +12,7 @@ use Egulias\EmailValidator\Warning\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class HomeController extends Controller
 {
@@ -67,6 +68,8 @@ class HomeController extends Controller
                         } else {
                             $cart->price = $product->price * $cart->quantity;
                         }
+                    Alert::success('Product Added in Cart Successfully');
+
                         $cart->save();
                     }
                 } else {
@@ -91,7 +94,7 @@ class HomeController extends Controller
                     } else {
                         $cart->price = $product->price * $cart->quantity;
                     }
-
+                    Alert::success('Product Added in Cart Successfully');
                     $cart->save();
                 }
             }
@@ -238,5 +241,19 @@ class HomeController extends Controller
         $comments->message = $request->input('message');
         $comments->save();
         return redirect()->back()->with('message', 'Thank you for countact us');
+    }
+    public function productsearch(Request $request){
+        $searchtext=$request->input('search');
+        $product=Product::where('title', 'LIKE', "%$searchtext%")->paginate(10);
+        return view('home.userpage',compact('product'));
+    }
+    public function all_product( Request $request){
+        $product = Product::query()->latest()->paginate(10);
+        return view('home.all_product',compact('product'));
+    }
+    public function searchproduct(Request $request){
+        $searchtext=$request->input('search');
+        $product=Product::where('title', 'LIKE', "%$searchtext%")->paginate(10);
+        return view('home.all_product',compact('product'));
     }
 }

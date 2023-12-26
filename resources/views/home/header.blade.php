@@ -23,7 +23,7 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="product.html">Products</a>
+                        <a class="nav-link" href="{{route('all_product')}}">Products</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="blog_list.html">Blog</a>
@@ -31,11 +31,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('comments')}}">Contact</a>
                     </li>
-                    <form class="form-inline">
-                        <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                            <i class="fa fa-search" aria-hidden="true"></i>
-                        </button>
-                    </form>
+                  
                     <form class="form-inline" action="{{route('user/cartlist')}}">
                         <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
                             <i class="fa fa-shopping-cart " aria-hidden="true"><a href="" id="cart-link"></a></i>
