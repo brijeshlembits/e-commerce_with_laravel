@@ -22,7 +22,9 @@ class User extends Authenticatable
      * The attributes that are mass assignable.
      *
      * @var string[]
+     * 
      */
+    public $user='users';
     protected $fillable = [
         'name',
         'email',
@@ -30,7 +32,7 @@ class User extends Authenticatable
         'address',
         'password',
     ];
-
+    
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -41,6 +43,7 @@ class User extends Authenticatable
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        'email_verified',
     ];
 
     /**
@@ -60,4 +63,14 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+    public function generateToken()
+    {
+        return base64_encode(\Illuminate\Support\Str::random(32) . '_' . time());
+    }
+    public function loginProcess($postdata ){
+        $user=User::all();
+        if (config('setting.user_email_verify') && $user->email_verified != '1') {
+            return ['status' => 0, 'message' => 'Please verify your email, <a class="noroute" href="' . route('resend-email-verification', ['code' => base64_encode($user->email)]) . '">Click here</a> to verify your email address.'];
+        }
+    }
 }

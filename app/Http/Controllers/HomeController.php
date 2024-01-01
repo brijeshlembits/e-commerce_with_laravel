@@ -12,6 +12,7 @@ use Egulias\EmailValidator\Warning\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class HomeController extends Controller
@@ -30,13 +31,38 @@ class HomeController extends Controller
         $category = Category::all()->count();
         $order = Order::all()->count();
         $user = User::all()->count();
+        $users = User::all();
         if ($usertype == '1') {
             return view('admin.home', compact('product', 'category', 'user', 'order'));
         } else {
             $product = Product::query()->latest()->paginate(10);
-
+            $validator = Validator::make($request->all(), [
+                'email' => 'required',
+                'password' => 'required'
+            ]);
+            if ($validator->fails()) {
+                return redirect('login')->with('error', 'Enter a Email And Password')->withInput();
+            }
+            $userObj = new User();
+            $result = $userObj->loginProcess($request->all());
+            
             return view('home.userpage', compact('product'));
         }
+    }
+    public function resendEmailVerification(Request $request)
+    {
+        $email = @base64_decode($request->email);
+        $user = User::where(['email', $email])->first();
+        if (!$user) {
+            return redirect('login')->with('error', 'Email Not Found');
+        }
+        $user->email_verified = $user->generateToken();
+        $user->save();
+        $this->general->sendMail($user->email, 'Email Verify | ' . config('setting.app_name'), 'email/email_verify', [
+            'name' => $user->first_name . ' ' . $user->last_name,
+            'url' => route('email-verify', ['code' => $user->email_verified])
+        ]);
+        return redirect('login')->with('success', 'Email Send Successfully');
     }
     public function useraddtocart(Request $request, $id)
     {
@@ -68,7 +94,7 @@ class HomeController extends Controller
                         } else {
                             $cart->price = $product->price * $cart->quantity;
                         }
-                    Alert::success('Product Added in Cart Successfully');
+                        Alert::success('Product Added in Cart Successfully');
 
                         $cart->save();
                     }
@@ -91,8 +117,10 @@ class HomeController extends Controller
                     if ($product->discount_price != null) {
 
                         $cart->price = $product->discount_price * $cart->quantity;
+                        $cart->oneprice = $product->discount_price;
                     } else {
                         $cart->price = $product->price * $cart->quantity;
+                        $cart->oneprice = $product->price;
                     }
                     Alert::success('Product Added in Cart Successfully');
                     $cart->save();
@@ -136,7 +164,7 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         $userid = $user->id;
-
+        // dd($request->input('total'));
         $cart = Cart::where('user_id', $userid)->get();
         foreach ($cart as $carts) {
             $order = new Order();
@@ -242,18 +270,50 @@ class HomeController extends Controller
         $comments->save();
         return redirect()->back()->with('message', 'Thank you for countact us');
     }
-    public function productsearch(Request $request){
-        $searchtext=$request->input('search');
-        $product=Product::where('title', 'LIKE', "%$searchtext%")->paginate(10);
-        return view('home.userpage',compact('product'));
+    public function productsearch(Request $request)
+    {
+        $searchtext = $request->input('search');
+        $product = Product::where('title', 'LIKE', "%$searchtext%")->paginate(10);
+        return view('home.userpage', compact('product'));
     }
-    public function all_product( Request $request){
+    public function all_product(Request $request)
+    {
         $product = Product::query()->latest()->paginate(10);
-        return view('home.all_product',compact('product'));
+        return view('home.all_product', compact('product'));
     }
-    public function searchproduct(Request $request){
-        $searchtext=$request->input('search');
-        $product=Product::where('title', 'LIKE', "%$searchtext%")->paginate(10);
-        return view('home.all_product',compact('product'));
+    public function searchproduct(Request $request)
+    {
+        $searchtext = $request->input('search');
+        $product = Product::where('title', 'LIKE', "%$searchtext%")->paginate(10);
+        return view('home.all_product', compact('product'));
+    }
+
+    public function javascriptcart(Request $request)
+    {
+        $cart = Cart::all();
+        return view("home.javascriptcartpage", compact('cart'));
+    }
+    public function savecartdata(Request $request)
+    {
+        $cartItems = json_decode($request->input('cartItems'), true);
+        // dd($cartItems);
+        $lastTwoItems = array_slice($cartItems, -2);
+        dd($lastTwoItems);
+        $user = Auth::user();
+        $product = Product::all();
+        foreach ($lastTwoItems as $item) {
+            $order = new Order();
+            $order->name = $user->name;
+            $order->email = $user->email;
+            $order->phone = $user->phone;
+            $order->address = $user->address;
+            if ($order->product_id = $item->id) {
+                $product = Product::find($item->id);
+                $order->product_title = $product->title;
+                $order->image = $product->image;
+            }
+            $order->price = $item->tolprice;
+            $order->quantity = $item->quantity;
+        }
     }
 }

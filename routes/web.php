@@ -31,6 +31,7 @@ Route::middleware([
 Route::group(['middleware' => 'web'], function () {
     
 Route::get('/redirect',[HomeController::class,'redirect'])->name('redirect');
+Route::get('/resend-email-verification',[HomeController::class,'resendEmailVerification'])->name('resend-email-verification');
 Route::get('/admin/user',[AdminController::class,'user'])->name('admin/user');
 Route::get('/admin/category',[AdminController::class,'view_category'])->name('admin/category');
 Route::post('/admin/add_category',[AdminController::class,'add_category'])->name('admin/add_category');
@@ -53,10 +54,12 @@ Route::get('/print_pdf{id}',[AdminController::class,'print_pdf'])->name('print_p
     // Client side url
 Route::any('/user/addtocart{id}',[HomeController::class,'useraddtocart'])->name('user/addtocart');
 Route::any('/user/cartlist',[HomeController::class,'cartlist'])->name('user/cartlist');
+Route::get('/javascriptcart',[HomeController::class,'javascriptcart'])->name('javascriptcart');
 Route::get('/user/productdetails{id}',[HomeController::class,'productdetails'])->name('user/productdetails');
 Route::get('/user/removecart{id}',[HomeController::class,'removecart'])->name('user/removecart');
 Route::get('/user/cash_on_delivery',[HomeController::class,'cash_on_delivery'])->name('user/cash_on_delivery');
-Route::get('/stripe{totalprice}',[HomeController::class,'stripe'])->name('stripe');
+Route::post('/savecartdata',[HomeController::class,'savecartdata'])->name('savecartdata');
+Route::any('/stripe{totalprice}',[HomeController::class,'stripe'])->name('stripe');
 Route::get('/show_order',[HomeController::class,'show_order'])->name('show_order');
 Route::get('/cancel_order{id}',[HomeController::class,'cancel_order'])->name('cancel_order');
 Route::get('/comments',[HomeController::class,'comments'])->name('comments');

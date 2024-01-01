@@ -20,6 +20,17 @@
       <link href="home/css/style.css" rel="stylesheet" />
       <!-- responsive style -->
       <link href="home/css/responsive.css" rel="stylesheet" />
+      <script>
+            /*Global variables*/
+            var dataTableObj = false;
+            var CSRF_NAME = '_token';
+            var CSRF_TOKEN = "{{ Session::token() }}";
+            var documentReadyFunctions = [];
+
+            function documentReady(fn) {
+                documentReadyFunctions.push(fn);
+            }
+        </script>
    </head>
    <body>
       <div class="hero_area">

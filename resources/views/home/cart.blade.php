@@ -63,7 +63,8 @@
                 justify-content: center;
 
             }
-            .hello{
+
+            .hello {
                 margin-top: auto !important;
                 margin-left: 10px;
             }
@@ -86,55 +87,66 @@
                             <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
 
                         </div>
-                        <?php $totalprice = 0; ?>
-                        @foreach($cart as $carts)
-                        <div class="card rounded-3 mb-4">
-                            <div class="card-body p-4">
-                                <div class="row d-flex justify-content-between align-items-center">
-                                    <div class="col-md-2 col-lg-2 col-xl-2">
-                                        <img src="{{$baseUrl}}{{$carts->image}}" class="img-fluid rounded-3" alt="Cotton T-shirt" height="100px" width="60px">
-                                    </div>
-                                    <div class="col-md-3 col-lg-3 col-xl-3">
-                                        <p class="lead fw-normal mb-2">{{$carts->product_title}}</p>
-                                        <!-- <p><span class="text-white">Size: </span>M <span class="text-white">Color: </span>Grey</p> -->
-                                    </div>
-                                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                        <button class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
+                        <?php  $totalprice = 0; 
+                        ?>
+                        <!-- <form action="" method="post" class="ajax-form"> -->
+                          
+                            <!-- <input type="hidden" name="cartItems" id="cartItemsInput"> -->
+                            @foreach($cart as $carts)
+                            <div class="card rounded-3 mb-4">
+                                <div class="card-body p-4">
+                                    <div class="row d-flex justify-content-between align-items-center">
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            <img src="{{$baseUrl}}{{$carts->image}}" class="img-fluid rounded-3" alt="Cotton T-shirt" height="100px" width="60px">
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-xl-3">
+                                            <p class="lead fw-normal mb-2">{{$carts->product_title}}</p>
+                                            <!-- <p><span class="text-white">Size: </span>M <span class="text-white">Color: </span>Grey</p> -->
+                                        </div>
 
-                                        <input id="form1" min="0" name="qty" max="10" min="1" value="{{$carts->quantity}}" type="number" class="form-control form-control-sm" />
+                                        <h5 class="mb-0 price" name="price" value="{{$carts->price}}">{{$carts->price}}</h5>
 
-                                        <button class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
+                                        <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                            <button class="btn btn-link px-2"  onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                            <input type="hidden" name="id" class="item-id" value="{{$carts->product_id}}">
+
+                                            <input id="form1" min="0" name="qty" max="10" min="1" value="{{$carts->quantity}}" type="number" class="form-control quantity-input form-control-sm" />
+
+                                            <button class="btn btn-link px-2"  onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                            <h5 class="mb-0 iprice" value="{{$carts->price}}">{{$carts->price}}</h5>
+                                        </div>
+                                        <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                            <a href="{{route('user/removecart',$carts->id)}}" class="text-danger"><i class="fa fa-trash fa-lg"></i></a>
+                                        </div>
                                     </div>
-                                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                        <h5 class="mb-0">${{$carts->price}}</h5>
-                                    </div>
-                                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                        <a href="{{route('user/removecart',$carts->id)}}" class="text-danger"><i class="fa fa-trash fa-lg"></i></a>
-                                    </div>
+
                                 </div>
-
                             </div>
-                        </div>
-                        <?php $totalprice += $carts->price ?>
-                        @endforeach
-                        <div class="totalprice d-flex">
-                            <label for=""> Total Price :</label>
-                            <label for="">${{$totalprice}}</label>
-                        </div>
+                            <?php  $totalprice += $carts->price 
+                            ?>
+                            @endforeach
+                            <div class="totalprice d-flex">
+                                Total Price :
+                                <p class="total" name="total" id="total">{{$totalprice}}</p>
+                            </div>
 
 
 
 
-                        <div class="card">
-                            <div class="card-body d-flex col-md-12 ">
-                                <button type="button col-md-6 " class="btn btn-warning btn-block btn-lg"><a href="{{route('user/cash_on_delivery')}}">Cash On delivery</a></button>
+                            <div class="card">
+                                <div class="card-body d-flex col-md-12 ">
+                                    <button type="button col-md-6 " class="btn btn-warning btn-block btn-lg"><a href="{{route('user/cash_on_delivery')}}">Cash On delivery</a></button>
                                 <button type="button col-md-6 " class="btn btn-warning btn-block btn-lg hello"><a href="{{route('stripe',$totalprice)}}">Pay Using Cart</a></button>
+                                    <!-- <input type="submit" name="" id=""> -->
+                                </div>
                             </div>
-                        </div>
+                        <!-- </form> -->
 
                     </div>
                 </div>
@@ -151,14 +163,69 @@
 
             </p>
         </div>
+        <!-- <script>
+            let tp = 0;
+            let quantity = document.getElementsByClassName('quantity-input');
+            let price = document.getElementsByClassName('price');
+            let iprice = document.getElementsByClassName('iprice');
+            let totalprice = document.getElementsByClassName('total');
+
+
+            let id = document.getElementsByClassName('item-id');
+            let cartItems = [];
+
+
+            console.log(id.length);
+            console.log(quantity.length);
+
+            function subtotal() {
+                tp = 0;
+                cartItems = [];
+                for (let i = 0; i < price.length; i++) {
+
+                    iprice[i].innerHTML = (price[i].innerHTML) * (quantity[i].value);
+                    
+                    // console.log(quantity[i].value);
+                    tp = tp + (price[i].innerHTML) * (quantity[i].value);
+
+                    // console.log(tp);
+                    totalprice[0].innerHTML = tp;
+                    var data = {
+                        id: id[i].value,
+                        quantity: quantity[i].value,
+                        tolprice: iprice[i].innerHTML,
+                        price: price[i].innerHTML,
+                        totalprice:totalprice[0].innerHTML,
+                    }
+
+                    
+                    cartItems.push(data);
+                }
+
+
+
+            }
+            subtotal();
+
+            document.getElementById('cartItemsInput').value = JSON.stringify(cartItems);
+            documentReady(function() {
+
+                $('.ajax-form').validate({
+                    submitHandler: function(form) {
+
+                        app.ajaxForm(form);
+                    }
+                })
+            });
+        </script> -->
         <!-- jQery -->
-        <script src="home/js/jquery-3.4.1.min.js"></script>
+        <script src="{{$baseUrl}}home/js/jquery-3.4.1.min.js"></script>
         <!-- popper js -->
-        <script src="home/js/popper.min.js"></script>
+        <script src="{{$baseUrl}}home/js/popper.min.js"></script>
         <!-- bootstrap js -->
-        <script src="home/js/bootstrap.js"></script>
+        <script src="{{$baseUrl}}home/js/bootstrap.js"></script>
         <!-- custom js -->
-        <script src="home/js/custom.js"></script>
+        <script src="{{$baseUrl}}home/js/custom.js"></script>
 </body>
 
 </html>

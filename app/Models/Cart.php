@@ -20,5 +20,6 @@ class Cart extends Model
         'quantity',
         'product_id',
         'user_id',
+        'oneprice',
     ];
 }
