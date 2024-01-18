@@ -197,7 +197,7 @@
                 // Initialize tp and cartItems here
                 for (let k = 0; k < quantity.length; k++) {
                     iprice[k].innerHTML = (price[k].innerHTML) * (quantity[k].value);
-                    tp = tp + (price[k].innerHTML) * (quantity[k].value);
+                    
 
 
                     let data = {
@@ -216,6 +216,12 @@
 
                     cartItems.push(data);
 
+                }
+                console.log(cartItems.length)
+                for(let i=0;i<cartItems.length;i++){
+
+                    console.log(iprice[i].innerHTML);
+                    tp=tp+parseInt(iprice[i].innerHTML);
                 }
                 totalprice[0].innerHTML = tp;
 

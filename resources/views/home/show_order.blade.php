@@ -81,7 +81,7 @@
             @foreach($orders as $order)
 
             @if($order->delivery_status=="User has cancel the order")
-
+                
             @else
             <div class="card">
                 <img src="{{$order->image}}" alt="" height="auto" width="100%">

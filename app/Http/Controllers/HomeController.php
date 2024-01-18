@@ -36,15 +36,17 @@ class HomeController extends Controller
             return view('admin.home', compact('product', 'category', 'user', 'order'));
         } else {
             $product = Product::query()->latest()->paginate(10);
-            $validator = Validator::make($request->all(), [
-                'email' => 'required',
-                'password' => 'required'
-            ]);
-            if ($validator->fails()) {
-                return redirect('login')->with('error', 'Enter a Email And Password')->withInput();
-            }
-            $userObj = new User();
-            $result = $userObj->loginProcess($request->all());
+            // $validator = Validator::make($request->all(), [
+            //     'email' => 'required',
+            //     'password' => 'required'
+            // ]);
+            // if ($validator->fails()) {
+            //     return redirect('login')->with('error', 'Enter a Email And Password')->withInput();
+            // }
+            // dd(1);
+          
+
+           
             
             return view('home.userpage', compact('product'));
         }

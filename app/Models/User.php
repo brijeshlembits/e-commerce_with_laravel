@@ -67,10 +67,5 @@ class User extends Authenticatable
     {
         return base64_encode(\Illuminate\Support\Str::random(32) . '_' . time());
     }
-    public function loginProcess($postdata ){
-        $user=User::all();
-        if (config('setting.user_email_verify') && $user->email_verified != '1') {
-            return ['status' => 0, 'message' => 'Please verify your email, <a class="noroute" href="' . route('resend-email-verification', ['code' => base64_encode($user->email)]) . '">Click here</a> to verify your email address.'];
-        }
-    }
+   
 }

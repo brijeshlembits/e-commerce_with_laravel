@@ -119,7 +119,7 @@
                                             </button>
                                         </div>
                                         <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                            <h5 class="mb-0 iprice" value="{{$carts->price}}">{{$carts->price}}</h5>
+                                            <h5 class="mb-0 iprice" value="{{$carts->price}}">{{$carts->price*$carts->quantity}}</h5>
                                         </div>
                                         <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                                             <a href="{{route('user/removecart',$carts->id)}}" class="text-danger"><i class="fa fa-trash fa-lg"></i></a>
